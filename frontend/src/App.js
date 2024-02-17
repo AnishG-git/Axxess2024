@@ -1,10 +1,17 @@
-import './styles/App.css';
+import "./styles/App.css";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Homepage from "./pages/homepage";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <Router>
+      <Routes>
+        <Route path="/" exact component={Homepage} />
+      </Routes>
+
+      {/* Add more routes as needed */}
+    </Router>
   );
 }
 
