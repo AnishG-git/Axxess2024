@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
+import BackArrow from '../icons/backarrow';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
+  const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
 
@@ -17,15 +20,24 @@ function Signup() {
   return (
     <div>
       <div className="flex items-center justify-center h-screen">
-        <div className="w-3/5 bg-white p-6 rounded shadow flex flex-col justify-evenly">
+        <div className="relative w-3/5 bg-white p-6 rounded shadow flex flex-col justify-evenly">
+          <button onClick={() => navigate(-1)} className="absolute top-2 left-2 p-2 bg-gray-500 text-white rounded-md hover:bg-red-600">
+            <BackArrow />
+          </button>
           <h1 className="text-3xl font-bold text-center">Sign Up</h1>
           <form className="mt-6 flex flex-wrap -mx-3">
-            <div className="w-full md:w-1/2 px-3 mb-5">
-              <div className="mb-5">
+              <div className="w-full mb-5 px-3">
                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-600">
                   Name
                 </label>
                 <input type="text" id="name" name="name" placeholder="Name" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" />
+              </div>
+            <div className="w-full md:w-1/2 px-3 mb-5">
+              <div className="mb-5">
+                <label htmlFor="packyear" className="block mb-2 text-sm font-medium text-gray-600">
+                  Pack Year
+                </label>
+                <input type="number" id="packyear" name="packyear" placeholder="Pack Year" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" />
               </div>
               <div className="mb-5">
                 <label htmlFor="phonenumber" className="block mb-2 text-sm font-medium text-gray-600">

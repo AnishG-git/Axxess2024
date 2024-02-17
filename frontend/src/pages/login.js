@@ -23,6 +23,7 @@ function Login() {
             </label>
             <input type="password" id="password" name="password" placeholder="Password" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" />
           </div>
+          
         </form>
 
         <button className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600">Enter</button>
