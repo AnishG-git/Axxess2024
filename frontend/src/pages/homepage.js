@@ -13,6 +13,12 @@ function Homepage() {
             <div className="py-5 px-7 text-xl font-semibold bg-indigo-600 text-white mx-3 rounded-full hover:bg-violet-300 hover:text-black">Log In</div>
           </div>
         </div>
+
+        <button
+          className="fixed bottom-0 right-0 p-5 m-5 bg-indigo-600 text-white rounded-full hover:bg-violet-300 hover:text-black"
+        >
+          Help
+        </button>
       </div>
     </div>
   );
