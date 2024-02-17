@@ -5,13 +5,9 @@ import Homepage from "./pages/homepage";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" exact component={Homepage} />
-      </Routes>
-
-      {/* Add more routes as needed */}
-    </Router>
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+    </Routes>
   );
 }
 
