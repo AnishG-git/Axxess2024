@@ -7,10 +7,15 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <nav className="bg-indigo-600 z-50">
+    <nav className="bg-indigo-600 ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <svg width="40px" height="40px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
+            <g>
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M17.5 2a4.5 4.5 0 0 1 2.951 7.897c.355.967.549 2.013.549 3.103A9 9 0 1 1 3.55 9.897a4.5 4.5 0 1 1 6.791-5.744 9.05 9.05 0 0 1 3.32 0A4.494 4.494 0 0 1 17.5 2zM10 13H8a4 4 0 0 0 7.995.2L16 13h-2a2 2 0 0 1-3.995.15L10 13z" />
+            </g>
+          </svg>
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Pulmo</span>
         </a>
         <button
@@ -26,7 +31,7 @@ const Navbar = () => {
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
           </svg>
         </button>
-        <div className={isOpen ? "block w-full md:w-auto z-50" : "hidden w-full md:w-auto z-50"}  id="navbar-default">
+        <div className={isOpen ? 'block w-full md:w-auto ' : 'hidden lg:block w-full md:w-auto '} id="navbar-default">
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-indigo-600 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
             <li>
               <a href="#" className="block py-2 px-3 text-violet-300 text-semibold bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 transition-300 " aria-current="page">
