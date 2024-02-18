@@ -7,7 +7,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <nav className="bg-indigo-600 ">
+    <nav className="bg-indigo-600 shadow-xl">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <svg width="40px" height="40px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
