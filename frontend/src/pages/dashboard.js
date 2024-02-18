@@ -10,7 +10,7 @@ const sampleData = [
   { name: 'May', score: 1890, pred: null },
   { name: 'Jun', score: 2390, pred: null },
   { name: 'Jul', score: 4300, pred: 4300 },
-  { name: 'Aug', score: 4300, pred: 4300 },
+  { name: 'Aug', score: null, pred: 4300 },
 ];
 
 function Dashboard() {
