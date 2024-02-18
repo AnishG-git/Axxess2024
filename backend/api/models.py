@@ -25,7 +25,7 @@ class DailyScore(models.Model):
     id = models.AutoField(primary_key=True)
 
 class Medicine(models.Model):
-    medicine_name = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    name = models.CharField(max_length=100, unique=True, blank=False, null=False)
     count = models.IntegerField(blank=True, null=True)
     dosage = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)

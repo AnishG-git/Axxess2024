@@ -1,30 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Inventory() {
   // Sample dataset of pills with initial amounts and dosages
   const initialPills = [
-    { name: 'Pill A', amount: 10, dosage: 1 },
-    { name: 'Pill B', amount: 20, dosage: 2 },
-    { name: 'Pill C', amount: 15, dosage: 1.5 },
-    { name: 'Pill D', amount: 8, dosage: 0.5 },
+    // { name: 'Pill A', amount: 10, dosage: 1 },
+    // { name: 'Pill B', amount: 20, dosage: 2 },
+    // { name: 'Pill C', amount: 15, dosage: 1.5 },
+    // { name: 'Pill D', amount: 8, dosage: 0.5 },
   ];
 
   // State to store the pills data and modal visibility
-  const [pills, setPills] = useState(initialPills);
+  const [pills, setPills] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPillName, setNewPillName] = useState('');
-  const [newPillAmount, setNewPillAmount] = useState('');
-  const [newPillDosage, setNewPillDosage] = useState('');
+  const [newPillAmount, setNewPillAmount] = useState(0);
+  const [newPillDosage, setNewPillDosage] = useState(0);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/get_medicine/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${Cookies.get('token')}`
+      }
+    })
+    .then(response => {
+      console.log("get_medicine", response.data);
+      setPills(response.data);
+      console.log("get_medicine_pills", pills)
+    })
+    .catch(error => {
+      console.log("get_medicine", error)
+      console.error(error);
+    }
+    )
+
+  }, [])
+
 
   // Function to handle toggling the amount of a pill
-  const toggleAmount = index => {
+  const toggleAmount = async index =>{
     const newPills = [...pills];
-    newPills[index].amount +=
-      newPills[index].dosage * (newPills[index].toggled ? 1 : -1);
+    newPills[index].count +=
+      newPills[index].count * (newPills[index].toggled ? 1 : -1);
     newPills[index].toggled = !newPills[index].toggled;
     setPills(newPills);
+    console.log({"newPillsCount": newPills[index].count, "newPillsName": newPills[index].name})
+    axios.patch("http://127.0.0.1:8000/api/update_inventory/", {
+      name: newPills[index].name,
+      count: newPills[index].count
+    }, {headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${Cookies.get('token')}`
+    }}).then(response => {
+      console.log("update_medicine", response.data);
+    }).catch(error => {
+      console.log("update_medicine", error)
+      console.error(error);
+    });
   };
 
   // Function to handle submitting the new pill form
@@ -35,18 +70,34 @@ function Inventory() {
       newPillAmount.trim() !== '' &&
       newPillDosage.trim() !== ''
     ) {
-      setPills([
-        ...pills,
-        {
-          name: newPillName,
-          amount: parseInt(newPillAmount),
-          dosage: parseFloat(newPillDosage),
-          toggled: false,
-        },
-      ]);
-      setNewPillName('');
-      setNewPillAmount('');
-      setNewPillDosage('');
+      // setPills([
+      //   ...pills,
+      //   {
+      //     name: newPillName,
+      //     amount: parseInt(newPillAmount),
+      //     dosage: parseInt(newPillDosage),
+      //     toggled: false,
+      //   },
+      // ]);
+      console.log({name: newPillName, count: Number(newPillAmount), dosage: Number(newPillDosage)})
+      axios.post('http://127.0.0.1:8000/api/add_medicine/', {
+        name: newPillName,
+        count: newPillAmount,
+        dosage: newPillDosage
+      }, {headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${Cookies.get('token')}`
+      }}).then(response => {
+        console.log("name", newPillName);
+        console.log("add_medicine", response.data);
+        window.location.reload();
+      }).catch(error => {
+        console.log("add_medicine", error)
+        console.error(error);
+      });
+      // setNewPillName('');
+      // setNewPillAmount(0);
+      // setNewPillDosage(0);
       setIsModalOpen(false);
     }
   };
@@ -73,7 +124,7 @@ function Inventory() {
               >
                 {pill.toggled ? '+' : '-'}
               </button>
-              <span className="text-xl font-bold">{pill.amount}</span>
+              <span className="text-xl font-bold">{pill.count}</span>
             </div>
             <div className="mt-2 flex justify-end"></div>
           </div>
@@ -100,7 +151,7 @@ function Inventory() {
                 <input
                   type="text"
                   id="pillName"
-                  value={newPillName}
+                  value={pills.name}
                   onChange={e => setNewPillName(e.target.value)}
                   className="mt-1 p-2 border rounded-md w-full"
                 />
@@ -110,12 +161,13 @@ function Inventory() {
                   htmlFor="pillAmount"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Amount
+                  Count
+                  {console.log("pills.count", pills.count)}
                 </label>
                 <input
                   type="number"
                   id="pillAmount"
-                  value={newPillAmount}
+                  value={pills.count}
                   onChange={e => setNewPillAmount(e.target.value)}
                   className="mt-1 p-2 border rounded-md w-full"
                 />

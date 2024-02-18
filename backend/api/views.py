@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import AppUser, DailyScore, Medicine
-from .serializers import AppUserSerializer, DailyScoreSerializer
+from .serializers import AppUserSerializer, DailyScoreSerializer, MedicineSerializer
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
@@ -79,7 +79,7 @@ def user_login(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
-    print(f"{request.user.username} logging out")
+    print(f"{request.user} logging out")
     request.auth.delete()  # Invalidates the user's session
     return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
@@ -143,23 +143,33 @@ def predict(request):
 def add_medicine(request):
     user = request.user
     data = request.data
-    medicine = data.get('medicine')
+    name = data.get('name')
     count = data.get('count')
     dosage = data.get('dosage')
+    print(name, count, dosage)
+    print("\n\n\n\n\n\n\n")
     try:
-        Medicine.objects.create(user=request.user, medicine_name=medicine, count=count, dosage=dosage)
+        Medicine.objects.create(user=user, name=name, count=count, dosage=dosage)
         return Response({"status": "Medicine added successfully!"}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_medicine(request):
+    user = request.user
+    medicines = Medicine.objects.filter(user=user)
+    medicine_serializer = MedicineSerializer(medicines, many=True)
+    return Response(medicine_serializer.data)
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def update_inventory(request):
     user = request.user
     data = request.data
-    medicine = data.get('medicine')
+    medicine = data.get('name')
     count = data.get('count')
-    medicine_obj = Medicine.objects.filter(medicine_name=medicine)
+    medicine_obj = Medicine.objects.filter(name=medicine)
     if medicine_obj.exists():
         try: 
             if int(count) == 0:

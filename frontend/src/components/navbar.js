@@ -91,7 +91,7 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="/form"
+                href="/logout"
                 className="block py-2 px-3 text-violet-300 rounded font-semibold hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 transition-300"
               >
                 Log Out

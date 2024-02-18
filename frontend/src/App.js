@@ -6,6 +6,7 @@ import Signup from "./pages/signup";
 import Dashboard from "./pages/dashboard";
 import Inventory from "./pages/inventory";
 import Form from "./pages/form";
+import Logout from "./pages/logout";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/inventory" element={<Inventory />} />
       <Route path="/form" element={<Form />} />
+      <Route path="/logout" element={<Logout />} />
       
     </Routes>
   );

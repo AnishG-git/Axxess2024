@@ -27,19 +27,25 @@ function Form() {
 
   const onSubmit = data => {
     console.log(data);
-    console.log("data.MWT1", data.MWT1);
+    console.log('data.MWT1', data.MWT1);
     axios
-      .post('http://127.0.0.1:8000/api/predict/', {
-        mwt1: Number(data.MWT1),
-        mwt2: Number(data.MWT2),
-        fev1: Number(data.FEV1),
-        fvc: Number(data.FVC),
-        had: Number(data.HAD),
-        sgrq: Number(data.SGRQ),
-      },  {headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${Cookies.get('token')}`
-      }})
+      .post(
+        'http://127.0.0.1:8000/api/predict/',
+        {
+          mwt1: Number(data.MWT1),
+          mwt2: Number(data.MWT2),
+          fev1: Number(data.FEV1),
+          fvc: Number(data.FVC),
+          had: Number(data.HAD),
+          sgrq: Number(data.SGRQ),
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${Cookies.get('token')}`,
+          },
+        }
+      )
       .then(response => {
         console.log(response.data);
         Cookies.set('prediction', JSON.stringify(response.data));
@@ -66,34 +72,42 @@ function Form() {
 
   return (
     <div>
-        <div className="fixed top-0 left-0 w-full min-h-screen -z-20">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1440 320"
-            className="absolute bottom-0 w-full z-0"
-            style={{ top: 'auto', bottom: 0 }}
-          >
-            <path
-              fill="#5a67d8"
-              fillOpacity="1"
-              d="M0,64L60,80C120,96,240,128,360,144C480,160,600,160,720,138.7C840,117,960,75,1080,53.3C1200,32,1320,32,1380,32L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-            ></path>
-          </svg>
-        </div>
+      <div className="fixed top-0 left-0 w-full min-h-screen -z-20">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+          className="absolute bottom-0 w-full z-0"
+          style={{ top: 'auto', bottom: 0 }}
+        >
+          <path
+            fill="#5a67d8"
+            fillOpacity="1"
+            d="M0,64L60,80C120,96,240,128,360,144C480,160,600,160,720,138.7C840,117,960,75,1080,53.3C1200,32,1320,32,1380,32L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
 
-        <div className="fixed bottom-10 right-20 lg:block hidden -z-10">
-          <img
-            src={Bear}
-            alt="My Image"
-            style={{ transform: 'scaleX(1)', width: '500px', height: 'auto' }}
-          />
-        </div>
-    <div className="flex items-center justify-center mt-8">
-      <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
-        <a href="/dashboard" className="flex items-center space-x-3 hover:text-red-600">
-          <BackArrow />
-        </a>
-        <h2 className="text-2xl font-bold mb-8 text-center">Input Form</h2>
+      <div className="fixed bottom-10 right-50 bottom-2 lg:block hidden -z-10 scale-x-[-1]">
+        <img
+          src={Bear}
+          alt="My Image"
+          style={{ transform: 'scaleX(1)', width: '500px', height: 'auto' }}
+        />
+      </div>
+      <div className="flex items-center justify-center mt-8">
+        <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
+          <div className="flex items-center justify-between">
+            <a
+              href="/dashboard"
+              className="flex items-center space-x-3 hover:text-red-600"
+            >
+              <BackArrow />
+            </a>
+            <div>
+              {curr}/{total}
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold mb-8 text-center">Input Form</h2>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -184,7 +198,9 @@ function Form() {
         <div className="flex flex-col items-center">
           {/* <div className="absolute right-0 mr-64 bg-white p-6 rounded-full shadow-lg"> */}
           <button
-            onClick={() => setKey(prevKey => prevKey + 1) && setIsPlaying(false)}
+            onClick={() =>
+              setKey(prevKey => prevKey + 1) && setIsPlaying(false)
+            }
             className="bg-red-600 text-white p-3 rounded ml-10 mb-5"
           >
             Reset
@@ -194,7 +210,13 @@ function Form() {
               isPlaying ? 'pulse' : ''
             }`}
           >
-            <Timer key={key} isPlaying={isPlaying} setIsPlaying={setIsPlaying} seconds={seconds} setSeconds={setSeconds}/>
+            <Timer
+              key={key}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              seconds={seconds}
+              setSeconds={setSeconds}
+            />
           </div>
           <button
             onClick={() => setIsPlaying(!isPlaying)}

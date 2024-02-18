@@ -14,4 +14,4 @@ class DailyScoreSerializer(serializers.ModelSerializer):
 class MedicineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medicine
-        fields = ['id', 'medicine_name', 'count']
+        fields = ['id', 'name', 'count', 'dosage']
