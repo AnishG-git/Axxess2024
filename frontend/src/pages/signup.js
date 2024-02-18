@@ -13,7 +13,7 @@ function Signup() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [name, setName] = useState('');
-  const [packYear, setPackYear] = useState('');
+  const [packYear, setPackYear] = useState(0);
   const [sex, setSex] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(0);
@@ -61,8 +61,13 @@ function Signup() {
         last_name: name.split(' ')[1],
         phone_number: phoneNumber,
         dob: dateOfBirth.toISOString().slice(0, 10),
-        pack_history: packYear,
-        sex: sex  
+        pack_history: Number(packYear),
+        sex: sex,
+        diabetes: diabetes,
+        muscular: muscular,
+        hypertension: hypertension,
+        atrial_fib: atrialfib,
+        ihd: ihd
       });
       console.log(response);
     } catch (error) {
