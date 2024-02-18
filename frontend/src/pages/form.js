@@ -1,14 +1,28 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-
-function Foms() {
+import axios from "axios";
+function Form() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = data => console.log(data);
-  console.log(errors);
+  const onSubmit = data => {
+    console.log(data);
+    axios.post('http://127.0.0.1:8000/api/predict/', {
+      MWT1: Number(data.MWT1),
+      MWT2: Number(data.MWT2),
+      FEV1: Number(data.FEV1),
+      FVC:  Number(data.FVC),
+      HAD:  Number(data.HAD),
+      SGRQ: Number(data.SGRQ),
+    }).then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.error(error);
+    });
+  };
+  // console.log(errors);
 
   return (
     <div className="flex items-center justify-center mt-8">
@@ -47,4 +61,4 @@ function Foms() {
     </div>
   );
 }
-export default Foms;
+export default Form;
