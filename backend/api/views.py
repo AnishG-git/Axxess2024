@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import math
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -6,11 +7,12 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .models import AppUser
-import pickle
+from .models import AppUser, DailyScore
+from .serializers import AppUserSerializer, DailyScoreSerializer
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
+from collections import OrderedDict
 
 # signup
 @api_view(['POST'])
@@ -75,6 +77,7 @@ def user_logout(request):
     request.auth.delete()  # Invalidates the user's session
     return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
+import random
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def predict(request):
@@ -89,7 +92,6 @@ def predict(request):
     muscular = user.muscular
     hypertension = user.hypertension
     atrial_fib = user.atrial_fib
-    
     ihd = user.ihd
     mwt1 = data.get('mwt1')
     mwt2 = data.get('mwt2')
@@ -99,15 +101,41 @@ def predict(request):
     sgrq = data.get('sgrq')
     today = datetime.today()
     age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-    print("loaded pickle")
     FILE_PATH = 'C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_model.pkl'
-    # with open(FILE_PATH, 'rb') as file:
-    #     model = pickle.load(file)
     model = tf.keras.models.load_model('C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_Model.h5')
     features = [age, pack_history, mwt1, mwt2, fev1, fvc, had, sgrq, sex, smoking, diabetes, muscular, hypertension, atrial_fib, ihd]
     features = [np.array(features)]
     scaler = StandardScaler()
     features = scaler.fit_transform(features)
     prediction = model.predict(features)
-    prediction = np.argmax(prediction, axis=1)
-    return Response({"status": prediction}, status=status.HTTP_200_OK)
+    print(prediction)
+    prediction = np.argmax(prediction, axis=1)[0]*(mwt1 + mwt2)/20
+    print(prediction)
+    DailyScore.objects.create(user=user, score=prediction, date=datetime.today())
+    # score_serializer = DailyScoreSerializer(user.daily_scores)
+    daily_scores = DailyScore.objects.filter(user=user)
+    score_serializer = DailyScoreSerializer(daily_scores, many=True)
+    score_data = score_serializer.data
+    print("\n\n\n\n\n")
+    print(score_data)
+    date = datetime.today()
+    future_score = math.floor(prediction + (mwt1 + mwt2)/20)
+    for i in range(0, 3):
+        x_factor = random.randint(1, 4)
+        op = random.randint(0, 1)
+        date += timedelta(1)
+        final_date = date.strftime('%Y-%m-%d')
+        if op == 1:
+            future_score += x_factor
+        else:
+            future_score -= x_factor
+        score_data.append(OrderedDict([("score", future_score), ("date", final_date)]))
+    return Response({"status": score_data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_data(request):
+    user = request.user
+    serializer = AppUserSerializer(user)
+    return Response(serializer.data)
