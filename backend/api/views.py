@@ -115,7 +115,7 @@ def predict(request):
     prediction = model.predict(features)
     print(prediction)
     prediction = np.argmax(prediction, axis=1)[0]*(mwt1 + mwt2)/20
-    print(prediction)
+    # print(prediction)
     DailyScore.objects.create(user=user, score=prediction, date=datetime.today())
     # score_serializer = DailyScoreSerializer(user.daily_scores)
     daily_scores = DailyScore.objects.filter(user=user)

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   LineChart,
   Line,
@@ -11,20 +11,58 @@ import {
 } from 'recharts';
 import Navbar from '../components/navbar';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
-const sampleData = [
-  { name: 'Jan', score: 4000, pred: null },
-  { name: 'Feb', score: 3000, pred: null },
-  { name: 'Mar', score: 2000, pred: null },
-  { name: 'Apr', score: 2780, pred: null },
-  { name: 'May', score: 1890, pred: null },
-  { name: 'Jun', score: 2390, pred: null },
-  { name: 'Jul', score: 4300, pred: 4300 },
-  { name: 'Aug', score: null, pred: 4300 },
-];
+let cookie = Cookies.get('prediction');
+let parsedCookie = JSON.parse(decodeURIComponent(cookie));
+
+// Transform the cookie data
+let transformedData = parsedCookie.status.map((item, index) => {
+  let date = new Date(item.date);
+  let day = date.getDate();
+
+  return {
+    name: day,
+    score: index < parsedCookie.status.length - 3 ? item.score : null,
+    pred: index >= parsedCookie.status.length - 3 ? item.score : null,
+  };
+});
+
+let othersArray = transformedData.slice(0, -3);
+let lastThreeArray = transformedData.slice(-3);
+// lastThreeArray.shift();
+lastThreeArray.unshift(othersArray[othersArray.length - 1]);
+console.log(othersArray, lastThreeArray);
+// Combine the two arrays
+let combinedArray = [...othersArray, ...lastThreeArray];
+
+// Make the pred and the score the same for the fourth last element
+combinedArray[combinedArray.length - 4].pred = combinedArray[combinedArray.length - 4].score;
+
+// console.log(combinedArray);
+const data = combinedArray;
 
 function Dashboard() {
   const navigate = useNavigate();
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/get_user_data/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${Cookies.get('token')}`
+      }
+    })
+    .then(response => {
+      console.log(response.data);
+      setName(response.data.first_name);
+    })
+    .catch(error => {
+      console.error(error);
+    }
+    )
+  }, [])
   return (
     <div>
       <Navbar />
@@ -47,7 +85,7 @@ function Dashboard() {
           <div className="w-full lg:w-1/3 items-center justify-center px-5 lg:pl-10 mb-5 h-full">
             <div className="bg-white outline-gray-300 outline rounded-xl px-5 py-2 shadow-2xl">
               <h1 className="text-4xl font-bold mb-5  w-full">
-                Hello! Sample Name
+                Hello! {name !== '' ? name : 'User'}
               </h1>
               <h3 className="mb-10 text-xl w-full">
                 Using out bear-ific AI model, we are able to calculate your CPOD
@@ -60,7 +98,7 @@ function Dashboard() {
             <div className=" outline-gray-300 outline rounded-xl  bg-white flex items-center justify-center shadow-2xl">
               <ResponsiveContainer width="100%" height={500}>
                 <LineChart
-                  data={sampleData}
+                  data={data}
                   margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="5 5" strokeWidth={1} />

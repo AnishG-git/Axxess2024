@@ -6,8 +6,10 @@ import axios from 'axios';
 import Timer from '../components/timer';
 import '../styles/form.css';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function Form() {
+  const navigate = useNavigate();
   const [curr, setCurr] = useState(1);
   const [total, setTotal] = useState(6);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -27,18 +29,20 @@ function Form() {
     console.log("data.MWT1", data.MWT1);
     axios
       .post('http://127.0.0.1:8000/api/predict/', {
-        MWT1: Number(data.MWT1),
-        MWT2: Number(data.MWT2),
-        FEV1: Number(data.FEV1),
-        FVC: Number(data.FVC),
-        HAD: Number(data.HAD),
-        SGRQ: Number(data.SGRQ),
+        mwt1: Number(data.MWT1),
+        mwt2: Number(data.MWT2),
+        fev1: Number(data.FEV1),
+        fvc: Number(data.FVC),
+        had: Number(data.HAD),
+        sgrq: Number(data.SGRQ),
       },  {headers: {
         'Content-Type': 'application/json',
         'Authorization': `Token ${Cookies.get('token')}`
       }})
       .then(response => {
         console.log(response.data);
+        Cookies.set('prediction', JSON.stringify(response.data));
+        navigate('/dashboard');
       })
       .catch(error => {
         console.error(error);
