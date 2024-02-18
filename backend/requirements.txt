@@ -4,3 +4,4 @@ django-cors-headers
 numpy
 scikit-learn
 tensorflow
+twilio

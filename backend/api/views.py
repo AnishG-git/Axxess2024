@@ -7,12 +7,18 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .models import AppUser, DailyScore
+from .models import AppUser, DailyScore, Medicine
 from .serializers import AppUserSerializer, DailyScoreSerializer
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
 from collections import OrderedDict
+from twilio.rest import Client
+
+account_sid = 'AC29c683297d307f8725400e2ef0ddc326'
+auth_token = '7f3415e4c21c190efba48321bd78e7df'
+client = Client(account_sid, auth_token)
+
 
 # signup
 @api_view(['POST'])
@@ -81,7 +87,6 @@ import random
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def predict(request):
-    
     data = request.data
     user = request.user
     dob = user.dob
@@ -132,6 +137,44 @@ def predict(request):
         score_data.append(OrderedDict([("score", future_score), ("date", final_date)]))
     return Response({"status": score_data}, status=status.HTTP_200_OK)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_medicine(request):
+    user = request.user
+    data = request.data
+    medicine = data.get('medicine')
+    count = data.get('count')
+    dosage = data.get('dosage')
+    try:
+        Medicine.objects.create(user=request.user, medicine_name=medicine, count=count, dosage=dosage)
+        return Response({"status": "Medicine added successfully!"}, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_inventory(request):
+    user = request.user
+    data = request.data
+    medicine = data.get('medicine')
+    count = data.get('count')
+    medicine_obj = Medicine.objects.filter(medicine_name=medicine)
+    if medicine_obj.exists():
+        try: 
+            if int(count) == 0:
+                print("count is 0 bro")
+                medicine_obj.update(count=0)
+                message = client.messages.create(
+                    from_='+18444712403',
+                    body=f'Dear {user.first_name}, you have run out of {medicine}, be sure to restock - The Pulmo Team :)',
+                    to='+18777804236'
+                )
+                return Response({"status": "Inventory is empty!"}, status=status.HTTP_200_OK)
+            medicine_obj.update(count=count)
+            return Response({"status": "Inventory updated!"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
