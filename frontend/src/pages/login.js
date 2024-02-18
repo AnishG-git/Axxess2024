@@ -1,32 +1,47 @@
-import React from 'react';
-import {useNavigate} from 'react-router-dom';
-import BackArrow from '../icons/backarrow';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function Login() {
-  const navigate = useNavigate();
+const Login = () => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleLogin = async e => {
+    e.preventDefault();
+    axios
+      .post('http://127.0.0.1:8000/api/login/', {
+        email: form.email,
+        password: form.password,
+      })
+      .then(response => {
+        console.log("RESPONSE", response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="w-1/4 h-3/5 bg-white p-6 rounded shadow flex flex-col justify-evenly relative">
-        <button onClick={() => navigate(-1)} className="absolute top-2 left-2 p-2 bg-gray-500 text-white rounded-md hover:bg-red-600"><BackArrow /></button>
-        <h1 className="text-3xl font-bold text-center">Login</h1>
-        <form className="mt-6">
-          <div className="mb-5">
-            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
-              Email
-            </label>
-            <input type="email" id="email" name="email" placeholder="Email" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">
-              Password
-            </label>
-            <input type="password" id="password" name="password" placeholder="Password" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" />
-          </div>
-          
-        </form>
+    <div className="flex items-center justify-center min-h-screen ">
+      <div className="p-8 bg-white rounded shadow-md max-w-md w-full">
 
-        <button className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600">Enter</button>
+      <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+      <form onSubmit={handleLogin} className="flex flex-col space-y-4">
+        <label>
+          Email:
+          <input type="email" name="email" value={form.email} onChange={handleChange} required className="w-full p-2 border border-gray-300 rounded mt-1" />
+        </label>
+        <label>
+          Password:
+          <input type="password" name="password" value={form.password} onChange={handleChange} required className="w-full p-2 border border-gray-300 rounded mt-1" />
+        </label>
+        <button type="submit" className="w-full p-2 text-white bg-blue-500 rounded mt-1 hover:bg-blue-600">Login</button>
+      </form>
       </div>
     </div>
   );
