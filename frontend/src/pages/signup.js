@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import DatePicker from 'react-date-picker';
@@ -23,11 +23,18 @@ function Signup() {
   const [atrialfib, setAtrialfib] = useState(0);
   const [ihd, setIhd] = useState(0);
 
-
   const handlePhoneNumberChange = event => {
     let formattedInput = event.target.value.split('-').join('');
-    if (formattedInput.length > 3 && formattedInput.length <= 6) formattedInput = formattedInput.slice(0, 3) + '-' + formattedInput.slice(3);
-    else if (formattedInput.length > 6) formattedInput = formattedInput.slice(0, 3) + '-' + formattedInput.slice(3, 6) + '-' + formattedInput.slice(6);
+    if (formattedInput.length > 3 && formattedInput.length <= 6)
+      formattedInput =
+        formattedInput.slice(0, 3) + '-' + formattedInput.slice(3);
+    else if (formattedInput.length > 6)
+      formattedInput =
+        formattedInput.slice(0, 3) +
+        '-' +
+        formattedInput.slice(3, 6) +
+        '-' +
+        formattedInput.slice(6);
     setPhoneNumber(formattedInput);
   };
 
@@ -42,8 +49,8 @@ function Signup() {
         packYear: packYear,
         sex: sex,
         email: email,
-        password: password
-      })
+        password: password,
+      });
       console.log({
         email: email,
         password: password,
@@ -52,8 +59,8 @@ function Signup() {
         phone_number: phoneNumber,
         dob: dateOfBirth.toISOString().slice(0, 10),
         pack_history: packYear,
-        sex: sex
-      })
+        sex: sex,
+      });
       const response = await axios.post('http://127.0.0.1:8000/api/register/', {
         email: email,
         password: password,
@@ -62,48 +69,63 @@ function Signup() {
         phone_number: phoneNumber,
         dob: dateOfBirth.toISOString().slice(0, 10),
         pack_history: packYear,
-        sex: sex  
+        sex: sex,
       });
       console.log(response);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <div>
       <div className="flex items-center justify-center h-screen">
         <div className="relative w-3/5 bg-white p-6 rounded shadow flex flex-col justify-evenly">
-          <button onClick={() => navigate(-1)} className="absolute top-2 left-2 p-2 bg-gray-500 text-white rounded-md hover:bg-red-600">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute top-2 left-2 p-2 bg-gray-500 text-white rounded-md hover:bg-red-600"
+          >
             <BackArrow />
           </button>
           <h1 className="text-3xl font-bold text-center">Sign Up</h1>
           <form className="mt-6 flex flex-wrap -mx-3">
-              <div className="w-full mb-5 px-3">
-                <label 
-                  htmlFor="name" 
-                  className="block mb-2 text-sm font-medium text-gray-600"
-                >
-                  Name
-                </label>
-                <input type="text" id="name" name="name" placeholder="Name" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" onChange={event => setName(event.target.value)}/>
-              </div>
+            <div className="w-full mb-5 px-3">
+              <label
+                htmlFor="name"
+                className="block mb-2 text-sm font-medium text-gray-600"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Name"
+                className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
+                onChange={event => setName(event.target.value)}
+              />
+            </div>
             <div className="w-full md:w-1/2 px-3 mb-5">
               <div className="mb-5">
-                <label 
-                  htmlFor="packyear" 
+                <label
+                  htmlFor="packyear"
                   className="block mb-2 text-sm font-medium text-gray-600"
-                  
                 >
                   Pack Year
                 </label>
-                <input type="number" id="packyear" name="packyear" placeholder="Pack Year" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" onChange={event => setPackYear(event.target.value)}/>
+                <input
+                  type="number"
+                  id="packyear"
+                  name="packyear"
+                  placeholder="Pack Year"
+                  className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
+                  onChange={event => setPackYear(event.target.value)}
+                />
               </div>
               <div className="mb-5">
-                <label 
-                  htmlFor="phonenumber" 
+                <label
+                  htmlFor="phonenumber"
                   className="block mb-2 text-sm font-medium text-gray-600"
-                   
                 >
                   Phone Number
                 </label>
@@ -120,23 +142,32 @@ function Signup() {
               </div>
 
               <div className="mb-5">
-                <label htmlFor="dateofbirth" className="block mb-2 text-sm font-medium text-gray-600">
+                <label
+                  htmlFor="dateofbirth"
+                  className="block mb-2 text-sm font-medium text-gray-600"
+                >
                   Date of Birth
                 </label>
-                <DatePicker onChange={setDateOfBirth} value={dateOfBirth} className="w-full p-4 border rounded-md outline-none hover:border-blue-500" />
+                <DatePicker
+                  onChange={setDateOfBirth}
+                  value={dateOfBirth}
+                  className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
+                />
               </div>
             </div>
             <div className="w-full md:w-1/2 px-3 mb-5">
               <div className="mb-5">
-                <label 
-                  htmlFor="sex" 
+                <label
+                  htmlFor="sex"
                   className="block mb-2 text-sm font-medium text-gray-600"
-                  
                 >
                   Sex
                 </label>
-                <select id="sex" name="sex" className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
-                onChange={event => setSex(event.target.value)}
+                <select
+                  id="sex"
+                  name="sex"
+                  className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
+                  onChange={event => setSex(event.target.value)}
                 >
                   <option value="">Select...</option>
                   <option value="male">Male</option>
@@ -145,25 +176,36 @@ function Signup() {
               </div>
 
               <div className="mb-5">
-                <label 
-                  htmlFor="email" 
+                <label
+                  htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-600"
-                  
                 >
                   Email
                 </label>
-                <input type="email" id="email" name="email" placeholder="Email" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" 
-                onChange={event => setEmail(event.target.value)}/>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
+                  onChange={event => setEmail(event.target.value)}
+                />
               </div>
               <div className="mb-5">
-                <label 
-                  htmlFor="password" 
+                <label
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-600"
-                  
                 >
                   Password
                 </label>
-                <input type="password" id="password" name="password" placeholder="Password" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" onChange={event => setPassword(event.target.value)}/>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  className="w-full p-4 border rounded-md outline-none hover:border-blue-500"
+                  onChange={event => setPassword(event.target.value)}
+                />
               </div>
             </div>
             <div className="w-full mb-5 px-3">
@@ -174,16 +216,25 @@ function Signup() {
                 Do you have diabetes?
               </label>
               <div className="flex items-center">
-                <input 
-                  type="radio" 
-                  id="yes" 
-                  name="diabetes" 
-                  value="yes" 
+                <input
+                  type="radio"
+                  id="yes"
+                  name="diabetes"
+                  value="yes"
                   className="mr-2"
                   onChange={event => setDiabetes(1)}
                 />
-                <label htmlFor="yes" className="mr-4">Yes</label>
-                <input type="radio" id="no" name="diabetes" value="no" className="mr-2" onChange={event => setDiabetes(0)}/>
+                <label htmlFor="yes" className="mr-4">
+                  Yes
+                </label>
+                <input
+                  type="radio"
+                  id="no"
+                  name="diabetes"
+                  value="no"
+                  className="mr-2"
+                  onChange={event => setDiabetes(0)}
+                />
                 <label htmlFor="no">No</label>
               </div>
               <div className="w-full mb-5 px-3">
@@ -194,9 +245,25 @@ function Signup() {
                   Do you have muscular dystrophy?
                 </label>
                 <div className="flex items-center">
-                  <input type="radio" id="yes" name="muscular" value="yes" className="mr-2" onChange={event => setMuscular(1)}/>
-                  <label htmlFor="yes" className="mr-4">Yes</label>
-                  <input type="radio" id="no" name="muscular" value="no" className="mr-2" onChange={event => setMuscular(0)}/>
+                  <input
+                    type="radio"
+                    id="yes"
+                    name="muscular"
+                    value="yes"
+                    className="mr-2"
+                    onChange={event => setMuscular(1)}
+                  />
+                  <label htmlFor="yes" className="mr-4">
+                    Yes
+                  </label>
+                  <input
+                    type="radio"
+                    id="no"
+                    name="muscular"
+                    value="no"
+                    className="mr-2"
+                    onChange={event => setMuscular(0)}
+                  />
                   <label htmlFor="no">No</label>
                 </div>
               </div>
@@ -208,18 +275,32 @@ function Signup() {
                   Do you have hypertension?
                 </label>
                 <div className="flex items-center">
-                  <input type="radio" id="yes" name="hypertension" value="yes" className="mr-2" onChange={event => setHypertension(1)}/>
-                  <label htmlFor="yes" className="mr-4">Yes</label>
-                  <input type="radio" id="no" name="hypertension" value="no" className="mr-2" onChange={event => setHypertension(0)}/>
+                  <input
+                    type="radio"
+                    id="yes"
+                    name="hypertension"
+                    value="yes"
+                    className="mr-2"
+                    onChange={event => setHypertension(1)}
+                  />
+                  <label htmlFor="yes" className="mr-4">
+                    Yes
+                  </label>
+                  <input
+                    type="radio"
+                    id="no"
+                    name="hypertension"
+                    value="no"
+                    className="mr-2"
+                    onChange={event => setHypertension(0)}
+                  />
                   <label htmlFor="no">No</label>
                 </div>
               </div>
-              
             </div>
-
           </form>
 
-          <button 
+          <button
             className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={onSubmit}
           >
