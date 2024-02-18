@@ -1,6 +1,15 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import Navbar from '../components/navbar'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+import Navbar from '../components/navbar';
 
 const sampleData = [
   { name: 'Jan', score: 4000, pred: null },
@@ -15,18 +24,33 @@ const sampleData = [
 
 function Dashboard() {
   return (
-    
     <div>
       <Navbar />
       <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={sampleData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <LineChart
+          data={sampleData}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
           <CartesianGrid strokeDasharray="5 5" strokeWidth={3} />
           <XAxis dataKey="name" strokeWidth={3} />
-          <YAxis  strokeWidth={3}/>
+          <YAxis strokeWidth={3} />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pred" stroke="#8884d8" strokeWidth={3}  activeDot={{ r: 8 }} connectNulls />
-          <Line type="monotone" dataKey="score" stroke="#82ca9d"  strokeWidth={3} connectNulls />
+          <Line
+            type="monotone"
+            dataKey="pred"
+            stroke="#8884d8"
+            strokeWidth={3}
+            activeDot={{ r: 8 }}
+            connectNulls
+          />
+          <Line
+            type="monotone"
+            dataKey="score"
+            stroke="#82ca9d"
+            strokeWidth={3}
+            connectNulls
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

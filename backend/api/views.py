@@ -22,7 +22,7 @@ def register(request):
     diabetes = data.get('diabetes')
     muscular = data.get('muscular')
     hypertension = data.get('hypertension')
-    atrialfib = data.get('atrialfib')
+    atrial_fib = data.get('atrialfib')
     ihd = data.get('ihd')
     print(dob)
     if AppUser.objects.filter(email=email).exists():
@@ -43,7 +43,7 @@ def register(request):
             diabetes=diabetes,
             muscular=muscular,
             hypertension=hypertension,
-            atrialfib=atrialfib,
+            atrial_fib=atrial_fib,
             ihd=ihd
         )
         return Response({"status": "User created successfully!"}, status=status.HTTP_201_CREATED)
