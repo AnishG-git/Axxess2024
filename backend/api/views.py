@@ -19,6 +19,11 @@ def register(request):
     dob = data.get('dob')
     sex = data.get('sex')
     pack_history = data.get('pack_history')
+    diabetes = data.get('diabetes')
+    muscular = data.get('muscular')
+    hypertension = data.get('hypertension')
+    atrialfib = data.get('atrialfib')
+    ihd = data.get('ihd')
     print(dob)
     if AppUser.objects.filter(email=email).exists():
         return Response({"status": "user already exists, email is not unique"}, status=status.HTTP_409_CONFLICT)
@@ -34,7 +39,12 @@ def register(request):
             phone_number=phone_number,
             dob=dob,
             pack_history=pack_history,
-            sex=sex
+            sex=sex,
+            diabetes=diabetes,
+            muscular=muscular,
+            hypertension=hypertension,
+            atrialfib=atrialfib,
+            ihd=ihd
         )
         return Response({"status": "User created successfully!"}, status=status.HTTP_201_CREATED)
     except Exception as e:
@@ -59,3 +69,4 @@ def user_logout(request):
     print(f"{request.user.username} logging out")
     request.auth.delete()  # Invalidates the user's session
     return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+
