@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -6,6 +7,10 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import AppUser
+import pickle
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+import tensorflow as tf
 
 # signup
 @api_view(['POST'])
@@ -70,3 +75,39 @@ def user_logout(request):
     request.auth.delete()  # Invalidates the user's session
     return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def predict(request):
+    
+    data = request.data
+    user = request.user
+    dob = user.dob
+    sex = 1
+    pack_history = user.pack_history
+    diabetes = user.diabetes
+    smoking = user.smoking
+    muscular = user.muscular
+    hypertension = user.hypertension
+    atrial_fib = user.atrial_fib
+    
+    ihd = user.ihd
+    mwt1 = data.get('mwt1')
+    mwt2 = data.get('mwt2')
+    fev1 = data.get('fev1')
+    fvc = data.get('fvc')
+    had = data.get('had')
+    sgrq = data.get('sgrq')
+    today = datetime.today()
+    age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    print("loaded pickle")
+    FILE_PATH = 'C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_model.pkl'
+    # with open(FILE_PATH, 'rb') as file:
+    #     model = pickle.load(file)
+    model = tf.keras.models.load_model('C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_Model.h5')
+    features = [age, pack_history, mwt1, mwt2, fev1, fvc, had, sgrq, sex, smoking, diabetes, muscular, hypertension, atrial_fib, ihd]
+    features = [np.array(features)]
+    scaler = StandardScaler()
+    features = scaler.fit_transform(features)
+    prediction = model.predict(features)
+    prediction = np.argmax(prediction, axis=1)
+    return Response({"status": prediction}, status=status.HTTP_200_OK)

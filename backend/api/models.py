@@ -8,6 +8,7 @@ class AppUser(AbstractUser):
     phone_number = models.CharField(max_length=10)
     dob = models.DateField(null=True, blank=True)
     pack_history = models.IntegerField(null=True, blank=True)
+    smoking = models.IntegerField(null=True, blank=True)
     sex = models.CharField(max_length=100, null=True, blank=True)
     diabetes = models.IntegerField(null=True, blank=True)
     muscular = models.IntegerField(null=True, blank=True)
