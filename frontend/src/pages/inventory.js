@@ -32,12 +32,14 @@ function Inventory() {
     }
   };
 
-
   // Function to handle submitting the new pill form
   const handleSubmit = e => {
     e.preventDefault();
     if (newPillName.trim() !== '' && newPillAmount.trim() !== '') {
-      setPills([...pills, { name: newPillName, amount: parseInt(newPillAmount) }]);
+      setPills([
+        ...pills,
+        { name: newPillName, amount: parseInt(newPillAmount) },
+      ]);
       setNewPillName('');
       setNewPillAmount('');
       setIsModalOpen(false);
@@ -50,23 +52,32 @@ function Inventory() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 ">
         {pills.map((pill, index) => (
           <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold w-full flex items-center justify-center">{pill.name}</h3>
+            <h3 className="text-lg font-semibold w-full flex items-center justify-center">
+              {pill.name}
+            </h3>
             <div className="flex items-center justify-between mt-2">
-              <button onClick={() => decreaseAmount(index)} className="px-3 py-1 bg-red-500 text-white rounded-md text-2xl">
+              <button
+                onClick={() => decreaseAmount(index)}
+                className="px-3 py-1 bg-red-500 text-white rounded-md text-2xl"
+              >
                 -
               </button>
               <span className="text-xl font-bold">{pill.amount}</span>
-              <button onClick={() => increaseAmount(index)} className="px-3 py-1 bg-green-500 text-white rounded-md text-2xl">
+              <button
+                onClick={() => increaseAmount(index)}
+                className="px-3 py-1 bg-green-500 text-white rounded-md text-2xl"
+              >
                 +
               </button>
             </div>
-            <div className="mt-2 flex justify-end">
-              
-            </div>
+            <div className="mt-2 flex justify-end"></div>
           </div>
         ))}
       </div>
-      <button onClick={() => setIsModalOpen(true)} className="bg-blue-500 text-white px-4 py-2 m-5 rounded-lg shadow-md ">
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="bg-blue-500 text-white px-4 py-2 m-5 rounded-lg shadow-md "
+      >
         Add New Pill
       </button>
       {isModalOpen && (
@@ -75,22 +86,46 @@ function Inventory() {
             <h2 className="text-lg font-semibold mb-4">Add New Pill</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="pillName" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="pillName"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Pill Name
                 </label>
-                <input type="text" id="pillName" value={newPillName} onChange={e => setNewPillName(e.target.value)} className="mt-1 p-2 border rounded-md w-full" />
+                <input
+                  type="text"
+                  id="pillName"
+                  value={newPillName}
+                  onChange={e => setNewPillName(e.target.value)}
+                  className="mt-1 p-2 border rounded-md w-full"
+                />
               </div>
               <div className="mb-4">
-                <label htmlFor="pillAmount" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="pillAmount"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Amount
                 </label>
-                <input type="number" id="pillAmount" value={newPillAmount} onChange={e => setNewPillAmount(e.target.value)} className="mt-1 p-2 border rounded-md w-full" />
+                <input
+                  type="number"
+                  id="pillAmount"
+                  value={newPillAmount}
+                  onChange={e => setNewPillAmount(e.target.value)}
+                  className="mt-1 p-2 border rounded-md w-full"
+                />
               </div>
               <div className="text-right">
-                <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                >
                   Add Pill
                 </button>
-                <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md ml-2">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md ml-2"
+                >
                   Cancel
                 </button>
               </div>
