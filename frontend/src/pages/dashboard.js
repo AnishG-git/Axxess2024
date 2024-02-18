@@ -39,8 +39,6 @@ function Dashboard() {
                   <Line type="monotone" dataKey="score" stroke="#82ca9d" strokeWidth={3} connectNulls />
                 </LineChart>
               </ResponsiveContainer>
-              
-              
             </div>
             <div className='w-full flex flex-wrap pt-5 '>
                 <button className='w-1/3 ' onClick={() => {navigate("/form")}}>
