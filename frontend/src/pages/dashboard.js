@@ -10,7 +10,9 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import Navbar from '../components/navbar';
+
 import { useNavigate } from 'react-router-dom';
+import Bear from '../images/bear.png';
 
 const sampleData = [
   { name: 'Jan', score: 4000, pred: null },
@@ -28,7 +30,7 @@ function Dashboard() {
   return (
     <div>
       <Navbar />
-      <div className="fixed top-0 left-0 w-full h-screen -z-10">
+      <div className="fixed top-0 left-0 w-full min-h-screen -z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
@@ -43,10 +45,10 @@ function Dashboard() {
         </svg>
       </div>
       <div className="z-10">
-        <div className="w-full flex flex-wrap pt-20">
+        <div className="w-full flex flex-wrap pt-5 lg:pt-20">
           <div className="w-full lg:w-1/3 items-center justify-center px-5 lg:pl-10 mb-5 h-full">
             <div className="bg-white outline-gray-300 outline rounded-xl px-5 py-2 shadow-2xl">
-              <h1 className="text-4xl font-bold mb-5  w-full">
+              <h1 className="text-4xl font-bold mb-5 mt-5  w-full">
                 Hello! Sample Name
               </h1>
               <h3 className="mb-10 text-xl w-full">
@@ -54,6 +56,9 @@ function Dashboard() {
                 levels and provide you the next plans of action. Lets take a
                 look at your scores!
               </h3>
+            </div>
+            <div className="hidden lg:block">
+                <img src={Bear} alt="My Image" style={{ transform: 'scaleX(-1)' }} />
             </div>
           </div>
           <div className=" w-full lg:w-2/3 px-5 lg:pr-10">
@@ -121,7 +126,7 @@ function Dashboard() {
                       </clipPath>
                     </defs>
                   </svg>
-                  <p className="ml-2">Hospital Call</p>
+                  <p className="ml-2 sm:block hidden">Hospital Call</p>
                 </div>
               </div>
               <div className="w-1/3 ">
@@ -138,7 +143,7 @@ function Dashboard() {
                       fill="white"
                     />
                   </svg>
-                  <p className="ml-2">Emergency Call</p>
+                <p className="ml-2 sm:block hidden">Emergency Call</p>
                 </div>
               </div>
             </div>

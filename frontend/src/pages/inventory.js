@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar';
+import axios from 'axios';
 
 function Inventory() {
-  // Sample dataset of pills with initial amounts
+  // Sample dataset of pills with initial amounts and dosages
   const initialPills = [
-    { name: 'Pill A', amount: 10 },
-    { name: 'Pill B', amount: 20 },
-    { name: 'Pill C', amount: 15 },
-    { name: 'Pill D', amount: 8 },
+    { name: 'Pill A', amount: 10, dosage: 1 },
+    { name: 'Pill B', amount: 20, dosage: 2 },
+    { name: 'Pill C', amount: 15, dosage: 1.5 },
+    { name: 'Pill D', amount: 8, dosage: 0.5 },
   ];
 
   // State to store the pills data and modal visibility
@@ -15,33 +16,37 @@ function Inventory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPillName, setNewPillName] = useState('');
   const [newPillAmount, setNewPillAmount] = useState('');
+  const [newPillDosage, setNewPillDosage] = useState('');
 
-  // Function to handle increasing amount of a pill
-  const increaseAmount = index => {
+  // Function to handle toggling the amount of a pill
+  const toggleAmount = index => {
     const newPills = [...pills];
-    newPills[index].amount += 1;
+    newPills[index].amount +=
+      newPills[index].dosage * (newPills[index].toggled ? 1 : -1);
+    newPills[index].toggled = !newPills[index].toggled;
     setPills(newPills);
-  };
-
-  // Function to handle decreasing amount of a pill
-  const decreaseAmount = index => {
-    const newPills = [...pills];
-    if (newPills[index].amount > 0) {
-      newPills[index].amount -= 1;
-      setPills(newPills);
-    }
   };
 
   // Function to handle submitting the new pill form
   const handleSubmit = e => {
     e.preventDefault();
-    if (newPillName.trim() !== '' && newPillAmount.trim() !== '') {
+    if (
+      newPillName.trim() !== '' &&
+      newPillAmount.trim() !== '' &&
+      newPillDosage.trim() !== ''
+    ) {
       setPills([
         ...pills,
-        { name: newPillName, amount: parseInt(newPillAmount) },
+        {
+          name: newPillName,
+          amount: parseInt(newPillAmount),
+          dosage: parseFloat(newPillDosage),
+          toggled: false,
+        },
       ]);
       setNewPillName('');
       setNewPillAmount('');
+      setNewPillDosage('');
       setIsModalOpen(false);
     }
   };
@@ -49,7 +54,13 @@ function Inventory() {
   return (
     <div>
       <Navbar />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 ">
+    <div className='w-full items-center justify-center text-center pt-20'>
+        <h1 className="text-5xl font-semibold">
+            Pill Inventory
+        </h1>
+    </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-10 px-5">
         {pills.map((pill, index) => (
           <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold w-full flex items-center justify-center">
@@ -57,18 +68,12 @@ function Inventory() {
             </h3>
             <div className="flex items-center justify-between mt-2">
               <button
-                onClick={() => decreaseAmount(index)}
-                className="px-3 py-1 bg-red-500 text-white rounded-md text-2xl"
+                onClick={() => toggleAmount(index)}
+                className="px-3 py-1 bg-blue-500 text-white rounded-md text-2xl"
               >
-                -
+                {pill.toggled ? '+' : '-'}
               </button>
               <span className="text-xl font-bold">{pill.amount}</span>
-              <button
-                onClick={() => increaseAmount(index)}
-                className="px-3 py-1 bg-green-500 text-white rounded-md text-2xl"
-              >
-                +
-              </button>
             </div>
             <div className="mt-2 flex justify-end"></div>
           </div>
@@ -112,6 +117,21 @@ function Inventory() {
                   id="pillAmount"
                   value={newPillAmount}
                   onChange={e => setNewPillAmount(e.target.value)}
+                  className="mt-1 p-2 border rounded-md w-full"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="pillDosage"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Dosage
+                </label>
+                <input
+                  type="number"
+                  id="pillDosage"
+                  value={newPillDosage}
+                  onChange={e => setNewPillDosage(e.target.value)}
                   className="mt-1 p-2 border rounded-md w-full"
                 />
               </div>
