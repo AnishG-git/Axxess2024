@@ -100,10 +100,10 @@ def predict(request):
     today = datetime.today()
     age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     print("loaded pickle")
-    FILE_PATH = 'C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_model.pkl'
+    # FILE_PATH = 'C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_model.pkl'
     # with open(FILE_PATH, 'rb') as file:
     #     model = pickle.load(file)
-    model = tf.keras.models.load_model('C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_Model.h5')
+    model = tf.keras.models.load_model('/home/tushar/Hackathons/Axxess2024/backend/api/Axxess_Model.h5')
     features = [age, pack_history, mwt1, mwt2, fev1, fvc, had, sgrq, sex, smoking, diabetes, muscular, hypertension, atrial_fib, ihd]
     features = [np.array(features)]
     scaler = StandardScaler()
