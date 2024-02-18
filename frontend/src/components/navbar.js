@@ -46,16 +46,26 @@ const Navbar = () => {
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-indigo-600 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 ">
             <li>
               <a
-                href="#"
+                href="/"
                 className="block py-2 px-3 text-violet-300 text-semibold bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 transition-300 "
                 aria-current="page"
               >
                 Home
               </a>
             </li>
+
             <li>
               <a
-                href="#"
+                href="/dashboard"
+                className="block py-2 px-3 text-violet-300 rounded font-semibold hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 transition-300"
+                >
+                  Dashboard
+                </a>
+            </li>
+
+            <li>
+              <a
+                href="/inventory"
                 className="block py-2 px-3 text-violet-300 rounded font-semibold hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 transition-300"
               >
                 Inventory
@@ -65,14 +75,15 @@ const Navbar = () => {
             <li>
               <a
                 href="#"
-                className="block py-2 px-3 text-violet-300 rounded font-semibold hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 transition-300"
+                // className="block py-2 px-3 text-violet-300 rounded font-semibold hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 transition-300"
+                className="block py-2 px-3 text-violet-300 rounded font-semiboldmd:border-0 md:p-0 transition-300" 
               >
                 Contact
               </a>
             </li>
             <li>
               <a
-                href="#"
+                href="/form"
                 className="block py-2 px-3 text-violet-300 rounded font-semibold hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 transition-300"
               >
                 Daily Log

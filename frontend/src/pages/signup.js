@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BackArrow from '../icons/backarrow';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import InputMask from 'react-input-mask';
+import Cookies from 'js-cookie';
 
 function Signup() {
   const navigate = useNavigate();
@@ -21,6 +22,12 @@ function Signup() {
     atrial_fib: 0,
     ihd: 0,
   });
+
+  useEffect(() => {
+    if (Cookies.get('token')) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   const handleChange = e => {
     if (e.target.name === 'dob') {
@@ -65,30 +72,31 @@ function Signup() {
         diabetes: formData.diabetes,
         muscular: formData.muscular,
         hypertension: formData.hypertension,
-        atrialfib: formData.atrialfib,
+        atrial_fib: formData.atrialfib,
         ihd: formData.ihd,
       })
       .then(response => {
         console.log(response.data);
+        Cookies.set('token', response.data.token);
+        navigate('/dashboard');
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-  return (
-    <div>
-      <div className="fixed top-0 left-0 w-full h-screen -z-10">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="absolute bottom-0 w-full z-0" style={{ top: 'auto', bottom: 0 }}>
-          <path
-            fill="#5a67d8"
-            fillOpacity="1"
-            d="M0,64L60,80C120,96,240,128,360,144C480,160,600,160,720,138.7C840,117,960,75,1080,53.3C1200,32,1320,32,1380,32L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-          ></path>
-        </svg>
-      </div>
-      <div className="flex items-center justify-center min-h-screen z-0 shadow-2xl">
+  if (Cookies.get('token')) {
+    return null;
+  } else {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
         <div className="p-8 bg-white rounded shadow-md max-w-md w-full">
+          <a
+            href="/"
+            className="flex items-center space-x-3 hover:text-red-600"
+          >
+            <BackArrow />
+          </a>
           <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <label className="block">
@@ -244,8 +252,8 @@ function Signup() {
           </form>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Signup;
