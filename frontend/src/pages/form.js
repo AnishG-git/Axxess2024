@@ -8,6 +8,7 @@ import '../styles/form.css';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
+import Bear from '../images/bear.png';
 function Form() {
   const navigate = useNavigate();
   const [curr, setCurr] = useState(1);
@@ -64,18 +65,35 @@ function Form() {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center h-screen">
-        <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
-          <div className="flex items-center justify-between">
-            <a href="/dashboard" className="hover:text-red-600">
-              <BackArrow />
-            </a>
-            <p>
-              {curr}/{total}
-            </p>
-          </div>
-          <h2 className="text-2xl font-bold mb-8 text-center">Daily Pulmo</h2>
+    <div>
+        <div className="fixed top-0 left-0 w-full min-h-screen -z-20">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+            className="absolute bottom-0 w-full z-0"
+            style={{ top: 'auto', bottom: 0 }}
+          >
+            <path
+              fill="#5a67d8"
+              fillOpacity="1"
+              d="M0,64L60,80C120,96,240,128,360,144C480,160,600,160,720,138.7C840,117,960,75,1080,53.3C1200,32,1320,32,1380,32L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
+            ></path>
+          </svg>
+        </div>
+
+        <div className="fixed bottom-10 right-20 lg:block hidden -z-10">
+          <img
+            src={Bear}
+            alt="My Image"
+            style={{ transform: 'scaleX(1)', width: '500px', height: 'auto' }}
+          />
+        </div>
+    <div className="flex items-center justify-center mt-8">
+      <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
+        <a href="/dashboard" className="flex items-center space-x-3 hover:text-red-600">
+          <BackArrow />
+        </a>
+        <h2 className="text-2xl font-bold mb-8 text-center">Input Form</h2>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -186,7 +204,7 @@ function Form() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
