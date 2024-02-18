@@ -28,12 +28,12 @@ function Dashboard() {
             <div className=" outline-gray-200 outline rounded-xl  flex items-center justify-center ">
               <ResponsiveContainer width="100%" height={500}>
                 <LineChart data={sampleData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="5 5" strokeWidth={3} />
+                  <CartesianGrid strokeDasharray="5 5" strokeWidth={1} />
                   <XAxis dataKey="name" strokeWidth={3} />
                   <YAxis strokeWidth={3} />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="pred" stroke="#8884d8" strokeWidth={3} activeDot={{ r: 8 }} connectNulls />
+                  <Line type="monotone" dataKey="pred" stroke="#8884d8" strokeDasharray="5 5" strokeWidth={3} activeDot={{ r: 8 }} connectNulls />
                   <Line type="monotone" dataKey="score" stroke="#82ca9d" strokeWidth={3} connectNulls />
                 </LineChart>
               </ResponsiveContainer>
