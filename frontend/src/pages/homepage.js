@@ -28,9 +28,9 @@ function Homepage() {
             <button className="py-5 px-10 m-5 z-0 bg-indigo-600 text-white rounded-full font-bold hover:bg-violet-300 hover:text-black" onClick={() => navigate('/signup')}>
               Sign Up
             </button>
-            <div className="py-5 px-10 z-0 m-5 bg-indigo-600 text-white rounded-full font-bold hover:bg-violet-300 hover:text-black" onClick={() => navigate('/login')}>
+            <button className="py-5 px-10 z-0 m-5 bg-indigo-600 text-white rounded-full font-bold hover:bg-violet-300 hover:text-black" onClick={() => navigate('/login')}>
               Log In
-            </div>
+            </button>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Navbar from '../components/navbar';
+import { useNavigate } from 'react-router-dom';
 
 const sampleData = [
   { name: 'Jan', score: 4000, pred: null },
@@ -14,6 +15,7 @@ const sampleData = [
 ];
 
 function Dashboard() {
+  const navigate = useNavigate();
   return (
     <div>
       <Navbar />
@@ -41,9 +43,17 @@ function Dashboard() {
               
             </div>
             <div className='w-full flex flex-wrap pt-5 '>
-                <div className='w-1/3 '><div className='mx-2 flex  py-5 rounded-lg flex-wrap bg-indigo-600 items-center justify-center text-white  px-2'>Daily Log</div></div>
-                <div className='w-1/3 '><div className='mx-2 flex  py-5 rounded-lg flex-wrap bg-blue-600 items-center justify-center text-white  px-2'>Hospital Call</div></div>
-                <div className='w-1/3 '><div className='mx-2 flex  py-5 rounded-lg flex-wrap bg-fuchsia-600 items-center justify-center text-white  px-2'>Emergency Call</div></div>
+                <button className='w-1/3 ' onClick={() => {navigate("/form")}}>
+                  <div className='mx-2 flex  py-5 rounded-lg flex-wrap bg-indigo-600 items-center justify-center text-white  px-2'>
+                    Daily Log
+                  </div>
+                </button>
+                <div className='w-1/3'>
+                  <div  className='mx-2 flex py-5 rounded-lg flex-wrap bg-gray-600 items-center justify-center text-gray  px-2'>
+                    Hospital Call
+                  </div>
+                </div>
+                <div className='w-1/3 '><div className='mx-2 flex  py-5 rounded-lg flex-wrap bg-gray-600 items-center justify-center text-gray  px-2'>Emergency Call</div></div>
               </div>
           </div>
         </div>
