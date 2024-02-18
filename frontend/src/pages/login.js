@@ -37,7 +37,6 @@ const Login = () => {
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  };
 
   if (Cookies.get('token')) {
     return null;
