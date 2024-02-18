@@ -19,7 +19,8 @@ def register(request):
     dob = data.get('dob')
     sex = data.get('sex')
     pack_history = data.get('pack_history')
-    print(dob)
+
+
     if AppUser.objects.filter(email=email).exists():
         return Response({"status": "user already exists, email is not unique"}, status=status.HTTP_409_CONFLICT)
     if AppUser.objects.filter(phone_number=phone_number).exists():

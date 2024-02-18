@@ -160,6 +160,21 @@ function Signup() {
                 <input type="password" id="password" name="password" placeholder="Password" className="w-full p-4 border rounded-md outline-none hover:border-blue-500" onChange={event => setPassword(event.target.value)}/>
               </div>
             </div>
+            <div className="w-full mb-5 px-3">
+              <label
+                htmlFor="diabetes"
+                className="block mb-2 text-sm font-medium text-gray-600"
+              >
+                Do you have diabetes?
+              </label>
+              <div className="flex items-center">
+                <input type="radio" id="yes" name="diabetes" value="yes" className="mr-2" />
+                <label htmlFor="yes" className="mr-4">Yes</label>
+                <input type="radio" id="no" name="diabetes" value="no" className="mr-2" />
+                <label htmlFor="no">No</label>
+              </div>
+            </div>
+            
           </form>
 
           <button 
