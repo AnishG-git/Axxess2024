@@ -106,8 +106,8 @@ def predict(request):
     sgrq = data.get('sgrq')
     today = datetime.today()
     age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-    FILE_PATH = 'C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_model.pkl'
-    model = tf.keras.models.load_model('C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_Model.h5')
+    # FILE_PATH = 'C:\\Users\\anish\\OneDrive\\Desktop\\Axxess2024\\backend\\api\\Axxess_model.pkl'
+    model = tf.keras.models.load_model('/home/tushar/Hackathons/Axxess2024/backend/api/Axxess_Model.h5')
     features = [age, pack_history, mwt1, mwt2, fev1, fvc, had, sgrq, sex, smoking, diabetes, muscular, hypertension, atrial_fib, ihd]
     features = [np.array(features)]
     scaler = StandardScaler()
