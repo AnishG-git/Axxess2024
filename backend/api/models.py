@@ -22,10 +22,13 @@ class DailyScore(models.Model):
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     score = models.IntegerField()
     date = models.DateField(auto_now_add=True)
+    id = models.AutoField(primary_key=True)
 
 class Medicine(models.Model):
-    medicine_name = models.CharField(max_length=100)
-    count = models.IntegerField(blank=True, null=False)
+    medicine_name = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    count = models.IntegerField(blank=True, null=True)
+    dosage = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
 
 # Create your models here.

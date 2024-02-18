@@ -3,3 +3,5 @@ from . import models
 
 # Register your models here.
 admin.site.register(models.AppUser)
+admin.site.register(models.DailyScore)
+admin.site.register(models.Medicine)
